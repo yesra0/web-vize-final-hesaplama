@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Hesaplama</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            -moz-appearance: textfield; /* Firefox'taki okları gizler */
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none; /* Chrome, Safari, Opera'daki okları gizler */
+            margin: 0;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #sonuc {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .gecmedi {
+            color: red;
+        }
+        .gecti {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Not Hesaplama Sistemi</h1>
+        
+        <div class="input-group">
+            <label for="vizeNotu">Vize Notu:</label>
+            <input type="number" id="vizeNotu" min="0" max="100" placeholder="0-100 arası girin">
+        </div>
+        
+        <div class="input-group">
+            <label for="finalNotu">Final Notu:</label>
+            <input type="number" id="finalNotu" min="0" max="100" placeholder="0-100 arası girin">
+        </div>
+        
+        <button onclick="hesapla()">Hesapla</button>
+        
+        <div id="sonuc"></div>
+    </div>
+
+    <script>
+        function hesapla() {
+            const vizeInput = document.getElementById('vizeNotu');
+            const finalInput = document.getElementById('finalNotu');
+            const sonucDiv = document.getElementById('sonuc');
+
+            const vizeNotu = parseFloat(vizeInput.value);
+            const finalNotu = parseFloat(finalInput.value);
+
+            // Girişlerin geçerliliğini kontrol et
+            if (isNaN(vizeNotu) || isNaN(finalNotu) || vizeNotu < 0 || vizeNotu > 100 || finalNotu < 0 || finalNotu > 100) {
+                sonucDiv.textContent = "Lütfen geçerli (0-100 arası) notlar girin.";
+                sonucDiv.className = "gecmedi"; // Hata durumunda kırmızı renk verebiliriz
+                return; // Fonksiyonu burada sonlandır
+            }
+
+            const ortalama = (vizeNotu * 0.4) + (finalNotu * 0.6);
+
+            sonucDiv.textContent = ""; // Önceki sonucu temizle
+            sonucDiv.className = ""; // Önceki stil sınıfını temizle
+
+            if (ortalama > 50) {
+                sonucDiv.textContent = `GEÇTİ - Notunuz: ${ortalama.toFixed(2)}`;
+                sonucDiv.className = "gecti"; // Yeşil renk için sınıf ata
+            } else {
+                sonucDiv.textContent = `KALDI - Notunuz: ${ortalama.toFixed(2)}`;
+                sonucDiv.className = "gecmedi"; // Kırmızı renk için sınıf ata
+            }
+        }
+    </script>
+</body>
+</html>
